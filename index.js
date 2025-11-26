@@ -8,4 +8,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+import leadRoutes from "./routes/leadRoutes.js";
+
+app.use("/", leadRoutes);
+
 export default app;

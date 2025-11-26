@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 // Lead Schema
 const leadSchema = new mongoose.Schema({
@@ -61,5 +61,4 @@ leadSchema.pre("save", function (next) {
   this.updatedAt = Date.now();
   next();
 });
-
-module.exports = mongoose.model("Lead", leadSchema);
+export default mongoose.model("Lead", leadSchema);
