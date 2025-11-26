@@ -9,7 +9,7 @@ import {
 
 router.post("/leads", leadCreation);
 router.get("/leads", getAllLeads);
-router.put("/lead/:id", leadUpdate);
-router.delete("/lead/:id", leadDelete);
+router.put("/leads/:id", leadUpdate);
+router.delete("/leads/:id", leadDelete);
 
 export default router;
