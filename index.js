@@ -5,7 +5,16 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173", // local dev (Vite)
+      "https://anvaya-crm-frontend-001.vercel.app", // production frontend
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 import leadRoutes from "./routes/leadRoutes.js";
