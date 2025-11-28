@@ -9,6 +9,7 @@ import {
 
 router.post("/leads", leadCreation);
 router.get("/leads", getAllLeads);
+router.get("/leads/:id", getLead)
 router.put("/leads/:id", leadUpdate);
 router.delete("/leads/:id", leadDelete);
 

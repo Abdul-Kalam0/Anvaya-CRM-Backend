@@ -61,6 +61,42 @@ const leadCreation = async (req, res) => {
   }
 };
 
+//get a Lead
+const getLead = async (req, res) => {
+  const { id } = req.params;
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        error: `Invalid Lead ID: ${id}`,
+      });
+    }
+
+    const lead = await leadModel
+      .findById(id)
+      .populate("salesAgent", "name email");
+
+    if (!lead) {
+      return res.status(404).json({
+        success: false,
+        error: `Lead with ID ${id} not found.`,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Lead fetched successfully",
+      data: lead,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
+
 // get all leads
 const allowedStatus = [
   "New",
@@ -194,4 +230,4 @@ const leadDelete = async (req, res) => {
   }
 };
 
-export { leadCreation, getAllLeads, leadUpdate, leadDelete };
+export { leadCreation, getAllLeads, leadUpdate, leadDelete, getLead };
