@@ -98,6 +98,76 @@ const getLeadById = async (req, res) => {
 };
 
 // get all leads
+// const allowedStatus = [
+//   "New",
+//   "Contacted",
+//   "Qualified",
+//   "Proposal Sent",
+//   "Closed",
+// ];
+// const allowedSources = ["Referral", "Website", "Cold Call", "Social Media"];
+// const getAllLeads = async (req, res) => {
+//   const { salesAgent, status, source, tags } = req.query;
+//   try {
+//     let filter = {};
+//     if (salesAgent) {
+//       if (!mongoose.Types.ObjectId.isValid(salesAgent)) {
+//         return res.status(400).json({
+//           success: false,
+//           error: "Invalid query: 'salesAgent' must be a valid ObjectId.",
+//         });
+//       }
+//       filter.salesAgent = salesAgent;
+//     }
+
+//     if (status) {
+//       if (!allowedStatus.includes(status)) {
+//         return res.status(400).json({
+//           success: false,
+//           error:
+//             "Invalid input: 'status' must be one of ['New', 'Contacted', 'Qualified', 'Proposal Sent', 'Closed'].",
+//         });
+//       }
+//       filter.status = status;
+//     }
+
+//     if (source) {
+//       if (!allowedSources.includes(source)) {
+//         return res.status(400).json({
+//           success: false,
+//           error: `Invalid input: 'source' must be one of ${JSON.stringify(
+//             allowedSources
+//           )}.`,
+//         });
+//       }
+//       filter.source = source;
+//     }
+
+//     if (tags) {
+//       //find the lead which containe any of the tag
+//       // supports comma-separated tags: ?tags=High Value,Follow-up
+//       filter.tags = { $in: tags.split(",") };
+//     }
+
+//     const leads = await leadModel
+//       .find(filter)
+//       .populate("salesAgent", "name email")
+//       .sort({ createdAt: -1 });
+
+//     if (!leads.length) {
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "No lead data found." });
+//     }
+//     res.status(200).json({ success: true, message: "All lead data.", leads });
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ message: "Internal server Error", error: error.message });
+//   }
+// };
+
+// get all leads
 const allowedStatus = [
   "New",
   "Contacted",
@@ -110,14 +180,15 @@ const getAllLeads = async (req, res) => {
   const { salesAgent, status, source, tags } = req.query;
   try {
     let filter = {};
+
+    // Handle salesAgent: If it's a valid ObjectId, filter by ID; otherwise, filter by name after populate
     if (salesAgent) {
-      if (!mongoose.Types.ObjectId.isValid(salesAgent)) {
-        return res.status(400).json({
-          success: false,
-          error: "Invalid query: 'salesAgent' must be a valid ObjectId.",
-        });
+      if (mongoose.Types.ObjectId.isValid(salesAgent)) {
+        filter.salesAgent = salesAgent; // Direct ID match
+      } else {
+        // For name-based search, we'll filter after populate (inefficient for large data, but works)
+        // Note: In production, consider storing agent name in lead or using aggregation for better performance
       }
-      filter.salesAgent = salesAgent;
     }
 
     if (status) {
@@ -144,15 +215,22 @@ const getAllLeads = async (req, res) => {
     }
 
     if (tags) {
-      //find the lead which containe any of the tag
-      // supports comma-separated tags: ?tags=High Value,Follow-up
-      filter.tags = { $in: tags.split(",") };
+      // Supports comma-separated tags: ?tags=High Value,Follow-up
+      filter.tags = { $in: tags.split(",").map((tag) => tag.trim()) };
     }
 
-    const leads = await leadModel
+    // Fetch leads with populate
+    let leads = await leadModel
       .find(filter)
       .populate("salesAgent", "name email")
       .sort({ createdAt: -1 });
+
+    // If salesAgent was provided as a name (not ID), filter in JS
+    if (salesAgent && !mongoose.Types.ObjectId.isValid(salesAgent)) {
+      leads = leads.filter((lead) =>
+        lead.salesAgent?.name?.toLowerCase().includes(salesAgent.toLowerCase())
+      );
+    }
 
     if (!leads.length) {
       return res
