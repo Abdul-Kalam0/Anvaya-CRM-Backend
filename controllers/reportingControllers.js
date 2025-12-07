@@ -14,13 +14,7 @@ export const getClosedLeadsLastWeek = async (req, res) => {
       .populate("salesAgent", "name")
       .sort({ updatedAt: -1 });
 
-    if (closedLeads.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No leads were closed in the last 7 days.",
-      });
-    }
-
+    // Return empty response with 200 instead of 404
     const formattedResponse = closedLeads.map((lead) => ({
       id: lead._id,
       name: lead.name,
@@ -30,7 +24,10 @@ export const getClosedLeadsLastWeek = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Closed leads from last week fetched successfully.",
+      message:
+        closedLeads.length === 0
+          ? "No leads were closed in the last 7 days."
+          : "Closed leads from last week fetched successfully.",
       data: formattedResponse,
     });
   } catch (error) {
