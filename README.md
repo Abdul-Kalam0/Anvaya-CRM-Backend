@@ -165,4 +165,6 @@ Licensed under the **MIT License**.
 
 ---
 
-### ⭐ If this project helped you, don't forget to star the repo!
+### ⭐ If you like this project, consider giving a **GitHub Star**!
+
+Made with ❤️ by Abdul Kalam
