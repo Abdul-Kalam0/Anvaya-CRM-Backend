@@ -1,161 +1,127 @@
-# 🚀 Anvaya CRM - Backend API
+# ⚙️ Anvaya CRM — Backend API
 
-A scalable and production-ready backend system designed for **Lead Management, Sales Agent Tracking, Comments, & Reporting**, built using **Node.js, Express, and MongoDB**.  
-This serves as the backend for the Anvaya CRM platform.
-
----
-
-## 🌍 Live API Base URL
-
-🔗 [Live Demo](https://anvaya-crm-backend-001.vercel.app/)
+A production-ready REST API powering the Anvaya CRM platform. Built using **Node.js, Express, MongoDB, Mongoose** with support for validation, filtering, commenting, and reporting.
 
 ---
 
-## 🛠 Tech Stack
+## 🌍 Live Demo
 
-| Technology | Purpose                |
-| ---------- | ---------------------- |
-| Node.js    | Backend runtime        |
-| Express.js | Routing & Middleware   |
-| MongoDB    | Database               |
-| Mongoose   | Schema & Validation    |
-| CORS       | Secure frontend access |
-| Vercel     | Deployment             |
+| Layer   | URL                                        |
+| ------- | ------------------------------------------ |
+| Backend | https://anvaya-crm-backend-001.vercel.app/ |
 
 ---
 
-## 📦 Project Structure
+## 📂 Project Structure
 
 ```
-📦 anvaya-crm-backend
- ┣ 📁 config
- ┃ ┗ db.config.js
- ┣ 📁 controllers
- ┣ 📁 routes
- ┣ 📁 models
- ┣ index.js
+server/
+ ┣ models/
+ ┣ controllers/
+ ┣ routes/
+ ┣ config/
  ┣ server.js
- ┣ package.json
  ┗ README.md
 ```
 
 ---
 
-## ⚙ Environment Variables
+## 🛠 Tech Stack
 
-Create a `.env` file in the root:
-
-```
-PORT=3000
-MONGO_URI=your-mongodb-connection-string
-```
+| Component  | Technology                       |
+| ---------- | -------------------------------- |
+| Runtime    | Node.js                          |
+| Framework  | Express                          |
+| Database   | MongoDB with Mongoose ORM        |
+| Deployment | Vercel / Railway / Render        |
+| Security   | CORS / Validation / Sanitization |
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Setup
 
-### **Clone the repository**
-
-```sh
-git clone https://github.com/Abdul-Kalam0/Anvaya-CRM-Backend.git
-cd anvaya-crm-backend
-```
-
-### **Install dependencies**
+### Install dependencies
 
 ```sh
 npm install
 ```
 
-### **Start development server**
+### Environment Setup
+
+Create `.env`:
+
+```
+PORT=3000
+MONGO_URI=your_mongodb_connection_string
+```
+
+### Run Server
 
 ```sh
 npm run dev
 ```
 
-Your API will run on:
+---
 
-```
-http://localhost:3000
-```
+## 📡 API Reference
+
+### Leads API
+
+| Method | Endpoint     | Action                   |
+| ------ | ------------ | ------------------------ |
+| POST   | `/leads`     | Create                   |
+| GET    | `/leads`     | List (filters supported) |
+| GET    | `/leads/:id` | Get one                  |
+| PUT    | `/leads/:id` | Update                   |
+| DELETE | `/leads/:id` | Remove                   |
+
+### Agents API
+
+| Method | Endpoint      | Action |
+| ------ | ------------- | ------ |
+| POST   | `/agents`     | Create |
+| GET    | `/agents`     | List   |
+| DELETE | `/agents/:id` | Remove |
+
+### Comments API
+
+| Method | Endpoint              | Action       |
+| ------ | --------------------- | ------------ |
+| POST   | `/leads/:id/comments` | Add comment  |
+| GET    | `/leads/:id/comments` | Get comments |
+
+### Reporting API
+
+| Method | Endpoint            | Action                 |
+| ------ | ------------------- | ---------------------- |
+| GET    | `/report/last-week` | Weekly closure summary |
+| GET    | `/report/pipeline`  | Active pipeline count  |
 
 ---
 
-## 📡 API Documentation
+## ✔ Best Practices Included
 
-### 🧩 Leads API
-
-| Method | Endpoint     | Description                      |
-| ------ | ------------ | -------------------------------- |
-| POST   | `/leads`     | Create a new lead                |
-| GET    | `/leads`     | Get all leads (supports filters) |
-| GET    | `/leads/:id` | Get a single lead                |
-| PUT    | `/leads/:id` | Update lead                      |
-| DELETE | `/leads/:id` | Delete lead                      |
-
-🔍 **Supported Query Filters:**  
-`salesAgent`, `status`, `source`, `tags`
+- Validation (Mongoose + Custom Rules)
+- Error‑handling with meaningful messages
+- ObjectId verification
+- Sorting, filtering & pagination support
 
 ---
 
-### 👨‍💼 Sales Agents API
+## 🛠 Recommended Tools
 
-| Method | Endpoint      | Description      |
-| ------ | ------------- | ---------------- |
-| POST   | `/agents`     | Create new agent |
-| GET    | `/agents`     | Get all agents   |
-| DELETE | `/agents/:id` | Remove an agent  |
-
----
-
-### 💬 Comments API
-
-| Method | Endpoint              | Description                    |
-| ------ | --------------------- | ------------------------------ |
-| POST   | `/leads/:id/comments` | Add a comment to specific lead |
-| GET    | `/leads/:id/comments` | List all comments for a lead   |
-
----
-
-### 📊 Reporting API
-
-| Method | Endpoint            | Description                     |
-| ------ | ------------------- | ------------------------------- |
-| GET    | `/report/last-week` | Leads closed in the last 7 days |
-| GET    | `/report/pipeline`  | Count of active/pending leads   |
-
----
-
-## 🛡 Validation & Error Handling
-
-- Full request validation using Mongoose
-- Descriptive JSON error responses
-- Duplicate email protection
-- ObjectId validation for Mongo queries
-
----
-
-## 🧪 Recommended Tools
-
-- Postman / Thunder Client
+- Postman or Thunder Client
 - MongoDB Compass
-- VS Code
+- VSCode REST Client
 
 ---
 
-## 🚧 Future Roadmap
+## 🚧 Future Enhancements
 
-- JWT Authentication
-- Role-based access control
-- Export reports (PDF/CSV)
-- Cron job reminders
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome!  
-Feel free to fork this repo and submit a PR.
+- JWT Security (Auth Middleware)
+- Role‑based access control
+- API Rate Limiting
+- Swagger Documentation
 
 ---
 
