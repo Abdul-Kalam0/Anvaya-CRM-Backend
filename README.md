@@ -7,7 +7,7 @@ This serves as the backend for the Anvaya CRM platform.
 
 ## 🌍 Live API Base URL
 
-🔗 **https://anvaya-crm-backend-001.vercel.app/**
+🔗 [Live Demo](https://anvaya-crm-backend-001.vercel.app/)
 
 ---
 
